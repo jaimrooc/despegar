@@ -1,0 +1,54 @@
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+<?page title="${c:l('bienvenida')}" contentType="text/html;charset=UTF-8"?>
+
+<?link type="text/css" rel="stylesheet" href="/css/style.css" ?>
+<?link type="text/css" rel="stylesheet" href="/css/menur.css" ?>
+
+<?link type="image/x-icon" rel="shortcut icon" href="/resources/images/icono_pestania.png" ?>
+
+<zk>
+    <div sclass="wrapper" align="center">
+        <div sclass="header">
+            <include src="/pages/contenido/menu.zul" />
+        </div>
+        <div apply="org.zkoss.bind.BindComposer" align="center" sclass="wrapper" viewModel="@id('vm') @init('co.com.ppit2.web.controller.HomeController')">
+            <custom-attributes org.zkoss.zul.image.preload="true" />
+            <space spacing="100%"/>
+            
+            <label value="Prueba con app (Pagos)" />
+            <grid>
+                <columns>
+                    <column label="${c:l('columna.campo')}" />
+                    <column label="${c:l('columna.contenido')}" />
+                    <column label="${c:l('columna.campo')}" />
+                    <column label="${c:l('columna.contenido')}" />
+                </columns>
+                <rows>                    
+                    <row>
+                        <label value="Tipo pago: (Codigo)" width="150px" />
+                        <label value="@bind(vm.testPagos.tipoPago.cdtipopago)" width="150px" />
+                        <label value="Tipo pago: (Descrip)" width="150px" />
+                        <label value="@bind(vm.testPagos.tipoPago.dsdescripcion)" width="150px" />
+                    </row>
+                    <row>
+                        <label value="Tarjeta Origen" width="150px" />
+                        <intbox value="@bind(vm.testPagos.tarjetaOrigen)" width="150px"/>
+                        <label value="Tarjeta Destino" width="150px" />
+                        <intbox value="@bind(vm.testPagos.tarjetaDestino)" width="150px"/>
+                    </row>
+                    <row>
+                        <label value="Valor Transaccion" width="150px" />
+                        <decimalbox format="###.##" value="@bind(vm.testPagos.valor)" width="150px" tabindex="1" />
+                        <label value="Numero de cuenta" width="150px" />
+                        <intbox value="@bind(vm.testPagos.nmcuotaspago)" width="150px"/>
+                    </row>
+                </rows>
+            </grid>
+            
+            <button onClick="@command('imprimir')" label="Ejemplo envio parametros (Proyecto pagos)"/>
+        </div>
+    </div>
+    <div>
+        <include src="/pages/contenido/footer.zul" />
+    </div>
+</zk>

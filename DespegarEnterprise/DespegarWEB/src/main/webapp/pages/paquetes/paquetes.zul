@@ -1,0 +1,61 @@
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+<?page title="${c:l('bienvenida')}" contentType="text/html;charset=UTF-8"?>
+
+<?link type="text/css" rel="stylesheet" href="/css/style.css" ?>
+<?link type="text/css" rel="stylesheet" href="/css/menur.css" ?>
+
+<?link type="image/x-icon" rel="shortcut icon" href="/resources/images/icono_pestania.png" ?>
+
+<zk>
+    <div sclass="wrapper" align="center">
+        <custom-attributes org.zkoss.zul.image.preload="true" />
+        <div sclass="header">
+            <include src="/pages/contenido/menu.zul" />
+        </div>
+        <div>
+            <space/>
+            <div apply="org.zkoss.bind.BindComposer" align="center" width="90%" viewModel="@id('vm') @init('co.com.ppit2.web.controller.PaqueteController')" sclass="content">
+
+                <div visible="@load(vm.msg.visible)" sclass="@load(vm.msg.sclass)" style="margin:10px 0px;" >
+                    <label value="@load(vm.msg.mensaje)"/>
+                </div>
+                
+                <!-- Barra de titulo -->
+                <div sclass="barra-titulo">
+                    <div align="left">
+                        <space/>
+                        <label value="${c:l('menu.paquetes')}" sclass="titulo-ppal"/>
+                    </div>
+                </div>
+                <div>
+                    <hlayout>
+                       <button onClick="@command('vueloMasHotel')" label="Vuelo + Hotel" orient="vertical" style='cursor:pointer'/>
+                       <button onClick="@command('vueloMasHotelMasCarro')" label="Vuelo + Hotel + Carro" orient="vertical" style='cursor:pointer'/>
+                       <button onClick="@command('mostrarVueloMasCarro')" label="Vuelo + Carro" orient="vertical" style='cursor:pointer'/>
+                       <button onClick="@command('mostrarHotelMasCarro')" label="Hotel + Carro" orient="vertical" style='cursor:pointer'/>
+                    </hlayout>
+                </div>
+                <separator height="20px"/>
+                <div visible="@load(vm.mostrarVueloMasHotel)">
+                   <include src="/pages/paquetes/vueloMasHotel.zul"/>
+                </div>
+                <div visible="@load(vm.mostrarVueloMasHotelMasCarro)">
+                   <include src="/pages/paquetes/vueloMasHotelMasCarro.zul" />
+                </div>
+               <div visible="@load(vm.mostrarVueloMasCarro)">
+                   <include src="/pages/paquetes/vueloMasCarro.zul"/>
+                </div>
+                <div visible="@load(vm.mostrarHotelMasCarro)">
+                   <include src="/pages/paquetes/hotelMasCarro.zul"/>
+                </div>
+                <separator height="50px"/>
+                <image src="/resources/images/buscar.PNG" onClick="@command('buscarPaquetes')" style='cursor:pointer'/>
+            </div>
+                  
+        </div>
+    </div>
+   
+    <div>
+        <include src="/pages/contenido/footer.zul" />
+    </div>
+</zk>

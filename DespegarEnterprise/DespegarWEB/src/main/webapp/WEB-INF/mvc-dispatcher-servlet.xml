@@ -1,0 +1,181 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/tx 
+        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+	<context:component-scan base-package="co.com.ppit2.web.controller" />
+
+	<!-- MVC -->
+	<mvc:annotation-driven />
+        <mvc:resources location="/css/" mapping="/css/**" />
+        <mvc:resources location="/resources/" mapping="/resources/**" />
+        <mvc:default-servlet-handler />
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="org.postgresql.Driver" />
+		<property name="url" value="jdbc:postgresql://localhost/despegar" />
+		<property name="username" value="postgres" />
+		<property name="password" value="admin123*" />
+	</bean>
+
+        <bean id="accessDeniedHandler"
+              class="co.com.ppit2.web.controller.handler.MyAccessDeniedHandler">
+            <property name="accessDeniedUrl" value="403" />
+        </bean>
+
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/pages/</value>
+		</property>
+		<property name="suffix">
+			<value>.zul</value>
+		</property>
+	</bean>
+
+	<tx:annotation-driven />
+<!--	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="cen" />
+	</bean>
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+	
+	 Estructura de clases 
+	<bean name="iDaoAlumno" class="co.com.cen.dao.impl.DaoAlumno"/>
+	<bean name="iServAlumno" class="co.com.cen.services.impl.ServAlumno">
+		<property name="iDaoAlumno" ref="iDaoAlumno" />
+	</bean>
+
+	<bean name="iDaoAcudiente" class="co.com.cen.dao.impl.DaoAcudiente"/>
+	<bean name="iServAcudiente" class="co.com.cen.services.impl.ServAcudiente">
+		<property name="iDaoAcudiente" ref="iDaoAcudiente" />
+	</bean>
+	
+	<bean name="iDaoClase" class="co.com.cen.dao.impl.DaoClase"/>
+	<bean name="iServClase" class="co.com.cen.services.impl.ServClase">
+		<property name="iDaoClase" ref="iDaoClase" />
+	</bean>
+
+	<bean name="iDaoDatoClase" class="co.com.cen.dao.impl.DaoDatoClase"/>
+	<bean name="iServDatoClase" class="co.com.cen.services.impl.ServDatoClase">
+		<property name="iDaoDatoClase" ref="iDaoDatoClase" />
+	</bean>
+
+	<bean name="iDaoNivel" class="co.com.cen.dao.impl.DaoNivel"/>
+	<bean name="iServNivel" class="co.com.cen.services.impl.ServNivel">
+		<property name="iDaoNivel" ref="iDaoNivel" />
+	</bean>
+
+	<bean name="iDaoObjetivoClase" class="co.com.cen.dao.impl.DaoObjetivoClase"/>
+	<bean name="iServObjetivoClase" class="co.com.cen.services.impl.ServObjetivoClase">
+		<property name="iDaoObjetivoClase" ref="iDaoObjetivoClase" />
+	</bean>
+
+	<bean name="iDaoObjetivoNivel" class="co.com.cen.dao.impl.DaoObjetivoNivel"/>
+	<bean name="iServObjetivoNivel" class="co.com.cen.services.impl.ServObjetivoNivel">
+		<property name="iDaoObjetivoNivel" ref="iDaoObjetivoNivel" />
+	</bean>
+
+	<bean name="iDaoProfesor" class="co.com.cen.dao.impl.DaoProfesor"/>
+	<bean name="iServProfesor" class="co.com.cen.services.impl.ServProfesor">
+		<property name="iDaoProfesor" ref="iDaoProfesor" />
+	</bean>
+
+	<bean name="iDaoTipoDocumento" class="co.com.cen.dao.impl.DaoTipoDocumento"/>
+	<bean name="iServTipoDocumento" class="co.com.cen.services.impl.ServTipoDocumento">
+		<property name="iDaoTipoDocumento" ref="iDaoTipoDocumento" />
+	</bean>
+
+	<bean name="iDaoTipoProfesor" class="co.com.cen.dao.impl.DaoTipoProfesor"/>
+	<bean name="iServTipoProfesor" class="co.com.cen.services.impl.ServTipoProfesor">
+		<property name="iDaoTipoProfesor" ref="iDaoTipoProfesor" />
+	</bean>
+	
+	<bean name="iDaoConfigCursos" class="co.com.cen.dao.impl.DaoConfigCursos"/>
+	<bean name="iServConfigCursos" class="co.com.cen.services.impl.ServConfigCursos">
+		<property name="iDaoConfigCursos" ref="iDaoConfigCursos" />
+	</bean>
+	
+	<bean name="iDaoCursos" class="co.com.cen.dao.impl.DaoCursos"/>
+	<bean name="iServCursos" class="co.com.cen.services.impl.ServCursos">
+		<property name="iDaoCursos" ref="iDaoCursos" />
+	</bean>
+	
+	<bean name="iDaoPasoNivel" class="co.com.cen.dao.impl.DaoPasoNivel"/>
+	<bean name="iServPasoNivel" class="co.com.cen.services.impl.ServPasoNivel">
+		<property name="iDaoPasoNivel" ref="iDaoPasoNivel" />
+	</bean>
+	
+	 Estructura de sesion 
+	<bean name="iDaoUser" class="co.com.cen.dao.impl.perfil.DaoUser"/>
+	<bean name="iServUser" class="co.com.cen.services.impl.perfil.ServUser">
+		<property name="iDaoUser" ref="iDaoUser" />
+	</bean>
+
+	<bean name="iDaoUserSession" class="co.com.cen.dao.impl.perfil.DaoUserSession"/>
+	<bean name="iServUserSession" class="co.com.cen.services.impl.perfil.ServUserSession">
+		<property name="iDaoUserSession" ref="iDaoUserSession" />
+	</bean>
+	
+	<bean name="iDaoAuthority" class="co.com.cen.dao.impl.perfil.DaoAuthority" />
+	<bean name="iServAuthority" class="co.com.cen.services.impl.perfil.ServAuthority">
+		<property name="iDaoAuthority" ref="iDaoAuthority" />
+	</bean>
+	
+	 PROFILE SECURITY 
+	<bean name="iDaoProfileSecurity" class="co.com.cen.dao.impl.DaoProfileSecurity" />
+	<bean name="iServProfileSecurity" class="co.com.cen.services.impl.ServProfileSecurity">
+		<property name="iDaoProfileSecurity" ref="iDaoProfileSecurity" />
+	</bean>
+	
+	 Instructores 
+	<bean name="iDaoAsistencia" class="co.com.cen.dao.impl.DaoAsistencia"/>
+	<bean name="iServAsistencia" class="co.com.cen.services.impl.ServAsistencia">
+		<property name="iDaoAsistencia" ref="iDaoAsistencia" />
+	</bean>
+	
+	<bean name="iDaoPlaneaciones" class="co.com.cen.dao.impl.DaoPlaneaciones"/>
+	<bean name="iServPlaneaciones" class="co.com.cen.services.impl.ServPlaneaciones">
+		<property name="iDaoPlaneaciones" ref="iDaoPlaneaciones" />
+	</bean>
+	
+	<bean name="iDaoRegistroHora" class="co.com.cen.dao.impl.DaoRegistroHora"/>
+	<bean name="iServRegistroHora" class="co.com.cen.services.impl.ServRegistroHora">
+		<property name="iDaoRegistroHora" ref="iDaoRegistroHora" />
+	</bean>
+	
+	 Administracion 
+	<bean name="iDaoAdministrador" class="co.com.cen.dao.impl.DaoAdministrador"/>
+	<bean name="iServAdministrador" class="co.com.cen.services.impl.ServAdministrador">
+		<property name="iDaoAdministrador" ref="iDaoAdministrador" />
+	</bean>
+	
+	<bean name="iDaoCoordinador" class="co.com.cen.dao.impl.DaoCoordinador"/>
+	<bean name="iServCoordinador" class="co.com.cen.services.impl.ServCoordinador">
+		<property name="iDaoCoordinador" ref="iDaoCoordinador" />
+	</bean>
+	
+	<bean name="iDaoConfigMail" class="co.com.cen.dao.impl.DaoConfigMail"/>
+	<bean name="iServConfigMail" class="co.com.cen.services.impl.ServConfigMail">
+		<property name="iDaoConfigMail" ref="iDaoConfigMail"/>
+	</bean>
+	
+     Backup 
+    <bean name="iDaoRespaldo" class="co.com.cen.dao.impl.DaoRespaldo"/>
+    <bean name="iServRespaldo" class="co.com.cen.services.impl.ServRespaldo">
+            <property name="iDaoRespaldo" ref="iDaoRespaldo"/>
+    </bean>-->
+		
+</beans>

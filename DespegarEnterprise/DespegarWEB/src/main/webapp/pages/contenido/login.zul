@@ -1,0 +1,52 @@
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+<?page title="${c:l('bienvenida')}" contentType="text/html;charset=UTF-8"?>
+
+<?link type="text/css" rel="stylesheet" href="/css/style.css" ?>
+<?link type="text/css" rel="stylesheet" href="/css/menur.css" ?>
+
+<?link type="image/x-icon" rel="shortcut icon" href="/resources/images/icono_pestania.png" ?>
+
+<zk>
+    <div sclass="wrapper" align="center">
+        <custom-attributes org.zkoss.zul.image.preload="true" />
+        <div sclass="header">
+            <include src="/pages/contenido/menu.zul" />
+        </div>
+        <window width="100%" height="100%">
+            <custom-attributes org.zkoss.zul.image.preload="true" />
+            <window mode="overlapped" position="center"
+                    apply="org.zkoss.bind.BindComposer"
+                    viewModel="@id('vm') @init('co.com.ppit2.web.controller.AccessLoginController')">
+                <div style="color:#9F6000;" visible="@load(vm.msg.visible)" align="center">
+                    <label value="@load(vm.msg.mensaje)" sclass="@load(vm.msg.sclass)" />
+                </div>
+                
+                <div align="center" >
+                    <div width="355px" align="left">
+                        <separator height="20px" />
+                        <label value="${c:l('login.username')}" sclass="lbl" style="font-size: 14px; font-weight: bold;" />
+                        <separator orient="horizontal" />
+                        <textbox width="350px" value="@bind(vm.persona.identificacion)" sclass="txt" focus="true" tabindex="1" style="font-size: 14px;" height="25px"/>
+                            
+                        <separator height="15px" orient="horizontal" />
+                        <label value="${c:l('login.password')}" sclass="lbl" style="font-size: 14px; font-weight: bold;" />
+                        <separator orient="horizontal" />
+                        <textbox width="350px" value="@bind(vm.persona.password)" tabindex="2" type="password" sclass="txt"  style="font-size: 14px;" height="20px" />
+                            
+                        <separator height="15px" />
+                        <div align="center">
+                            <button onClick="@command('login')" label="${c:l('login.action.submit')}" mold="trendy" type="submit" height="30px" width="100px" sclass="btn" style="font-size: 13px; margin-right:10px;"/>
+                            <separator height="20px" orient="horizontal" />
+                            <a label="${c:l('login.forgotpwd')}" href="/forgotpwd.do" sclass="labelA" style="font-size: 13.5px;" />
+                        </div>
+                        
+                    </div>
+                    <image src="/resources/images/logoLetraAzu.png" width="265px" />
+                </div>
+            </window>
+        </window>
+    </div>
+    <div>
+        <include src="/pages/contenido/footer.zul" />
+    </div>
+</zk>

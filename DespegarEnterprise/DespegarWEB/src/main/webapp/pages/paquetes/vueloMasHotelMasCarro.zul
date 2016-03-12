@@ -1,0 +1,81 @@
+<zk>
+    <div align="left">  
+        <vlayout>
+            <hlayout>
+                <vlayout>
+                    <label value="${c:l('paquetes.origen')}" sclass="titulo-secundario"/>
+                    <combobox  model="@load(vm.destinosVuelos)" value="@bind(vm.origen)"
+                               id="comboOrigen" autodrop="true" buttonVisible="false">
+                        <template name="model">
+                            <comboitem label="@load(each)"/>
+                        </template>
+                    </combobox>
+                </vlayout>
+                <separator width="100px"/>
+
+                <vlayout>
+                    <label value="${c:l('paquetes.Destino')}" sclass="titulo-secundario"/>
+                    <combobox  model="@load(vm.destinosVuelos)" value="@bind(vm.destino)"
+                               id="comboDestino" autodrop="true" buttonVisible="false">
+                        <template name="model">
+                            <comboitem label="@load(each)"/>
+                        </template>
+                    </combobox>
+                </vlayout>
+            </hlayout>
+            <separator height="20px"/>
+            <hlayout>
+                 <vlayout>
+                   <label value="${c:l('paquetes.fecha.partida')}" width="150px" sclass="titulo-secundario"/>
+                   <datebox onChange="@command('validarFechaPartida')"  value="@bind(vm.fechaPartida)" width="150px" tabindex="1"/>
+                </vlayout>
+                <separator width="100px"/>
+                <vlayout>
+                   <label value="${c:l('paquetes.fecha.regreso')}" width="150px" sclass="titulo-secundario"/>
+                   <datebox onChange="@command('validarFechaRegreso')"  value="@bind(vm.fechaRegreso)" width="150px" tabindex="1" />
+                </vlayout>
+            </hlayout>
+            <separator height="20px"/>
+            <hlayout>
+                <vlayout>
+                    <label value="${c:l('paquetes.habitaciones')}" sclass="titulo-secundario"/>
+                    <combobox value="@bind(vm.habitaciones)" width="150px" 
+                        selectedItem="@bind(vm.habitaciones)">
+                        <comboitem label="1"/>
+                        <comboitem label="2"/>
+                        <comboitem label="3"/>
+                        <comboitem label="4"/>
+                    </combobox>
+                </vlayout>
+                <separator width="80px"/>
+                <vlayout>
+                    <label value="${c:l('paquetes.adultos')}" sclass="titulo-secundario"/>
+                   <combobox width="150px" value="@bind(vm.adultos)"
+                        selectedItem="@bind(vm.adultos)">
+                        <comboitem label="1"/>
+                        <comboitem label="2"/>
+                        <comboitem label="3"/>
+                        <comboitem label="4"/>
+                        <comboitem label="5"/>
+                        <comboitem label="6"/>
+                        <comboitem label="7"/>
+                        <comboitem label="8"/>
+                    </combobox>
+                </vlayout>
+                <separator width="80px"/>
+                <vlayout>
+                    <label value="${c:l('paquetes.menores')}" sclass="titulo-secundario"/>
+                    <combobox width="150px" value="@bind(vm.menores)"
+                        selectedItem="@bind(vm.menores)">
+                        <comboitem label="1"/>
+                        <comboitem label="2"/>
+                        <comboitem label="3"/>
+                        <comboitem label="4"/>
+                        <comboitem label="5"/>
+                        <comboitem label="6"/>
+                    </combobox>
+                </vlayout>
+             </hlayout>
+        </vlayout>
+    </div>
+</zk>

@@ -1,0 +1,42 @@
+<?taglib uri="/WEB-INF/security.tld" prefix="sec"?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+<?page id="nivel" title="${c:l('bienvenida')}" contentType="text/html;charset=UTF-8"?>
+
+<?script src="/js/jquery-1.4.2.js" type="text/javascript"  ?>
+<?script src="/js/jquery.dropmenu.js" type="text/javascript" ?>
+<?script src="/js/menu.js" type="text/javascript" ?>
+
+<?link type="text/css" rel="stylesheet" href="/css/menur.css" ?>
+<?link type="text/css" rel="stylesheet" href="/css/style.css" ?>
+<?link type="text/css" rel="stylesheet" href="/css/formStyle.css" ?>
+
+<?link type="image/x-icon" rel="shortcut icon" href="/resources/images/icono_cen.png" ?>
+
+<zk>
+    <div sclass="wrapper" align="center">
+        <custom-attributes org.zkoss.zul.image.preload="true" />
+        <div sclass="header">
+            <include src="/pages/contenido/menu.zul" />
+        </div>
+        <div>
+            <space/>
+            <div apply="org.zkoss.bind.BindComposer" align="center" width="90%" viewModel="@id('vm') @init('co.com.ppit2.web.controller.TransporteAereoController')" sclass="content">
+
+                <div visible="@load(vm.msg.visible)" sclass="@load(vm.msg.sclass)" style="margin:10px 0px;" >
+                    <label value="@load(vm.msg.mensaje)"/>
+                </div>
+									
+                <div sclass="barra-titulo">
+                    <space/>
+                    <div align="left">
+                        <space/>
+                        <label value="${c:l('menu.transporte.aereo')}" sclass="titulo-ppal"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <include src="/pages/contenido/footer.zul" />
+    </div>
+</zk>

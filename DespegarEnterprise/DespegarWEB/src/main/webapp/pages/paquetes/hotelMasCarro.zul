@@ -1,0 +1,132 @@
+<zk>
+    <div align="left"> 
+        <vlayout>
+            <hlayout>
+                <vlayout>
+                    <label value="${c:l('paquetes.donde')}" sclass="titulo-secundario"/>
+                    <combobox  model="@load(vm.destinosVuelos)" value="@bind(vm.destino)"
+                               id="comboDestino" autodrop="true" buttonVisible="false">
+                        <template name="model">
+                            <comboitem label="@load(each)"/>
+                        </template>
+                    </combobox>
+                </vlayout>
+                <separator width="100px"/>
+            </hlayout>
+            <separator height="20px"/>
+            <hlayout>
+                <vlayout>
+                   <label value="${c:l('paquetes.fecha.partida')}" width="150px" sclass="titulo-secundario"/>
+                   <datebox onChange="@command('validarFechaPartida')"  value="@bind(vm.fechaPartida)" width="150px" tabindex="1"/>
+                </vlayout>
+                <separator width="100px"/>
+                <vlayout>
+                   <label value="${c:l('paquetes.fecha.regreso')}" width="150px" sclass="titulo-secundario"/>
+                   <datebox onChange="@command('validarFechaRegreso')"  value="@bind(vm.fechaRegreso)" width="150px" tabindex="1" />
+                </vlayout>
+            </hlayout>
+            <separator height="20px"/>
+            <hlayout>
+                <vlayout>
+                    <label value="${c:l('paquetes.habitaciones')}" sclass="titulo-secundario"/>
+                    <combobox value="@bind(vm.habitaciones)" width="150px" 
+                        selectedItem="@bind(vm.habitaciones)">
+                        <comboitem label="1"/>
+                        <comboitem label="2"/>
+                        <comboitem label="3"/>
+                        <comboitem label="4"/>
+                    </combobox>
+                </vlayout>
+                <separator width="80px"/>
+                <vlayout>
+                    <label value="${c:l('paquetes.adultos')}" sclass="titulo-secundario"/>
+                    <combobox width="150px" value="@bind(vm.adultos)"
+                        selectedItem="@bind(vm.adultos)">
+                        <comboitem label="1"/>
+                        <comboitem label="2"/>
+                        <comboitem label="3"/>
+                        <comboitem label="4"/>
+                        <comboitem label="5"/>
+                        <comboitem label="6"/>
+                        <comboitem label="7"/>
+                        <comboitem label="8"/>
+                    </combobox>
+                </vlayout>
+                <separator width="80px"/>
+                <vlayout>
+                    <label value="${c:l('paquetes.menores')}" sclass="titulo-secundario"/>
+                    <combobox width="150px" value="@bind(vm.menores)"
+                        selectedItem="@bind(vm.menores)">
+                        <comboitem label="1"/>
+                        <comboitem label="2"/>
+                        <comboitem label="3"/>
+                        <comboitem label="4"/>
+                        <comboitem label="5"/>
+                        <comboitem label="6"/>
+                    </combobox>
+                </vlayout>
+             </hlayout>
+            <separator height="20px"/>
+            <hlayout>
+                <label value="${c:l('paquetes.alquiler.carro')}" sclass="titulo-secundario"/>    
+                <separator width="58px"/>
+                <datebox onChange="@command('validarAlquiler')" value="@bind(vm.fechaAlquiler)" width="150px" tabindex="1" />
+                <combobox width="150px" value="@bind(vm.horaInicioAlquiler)"
+                     selectedItem="@bind(vm.horaInicioAlquiler)">
+                     <comboitem label="00:00"/>
+                     <comboitem label="01:00"/>
+                     <comboitem label="02:00"/>
+                     <comboitem label="03:00"/>
+                     <comboitem label="04:00"/>
+                     <comboitem label="05:00"/>
+                     <comboitem label="06:00"/>
+                     <comboitem label="07:00"/>
+                     <comboitem label="08:00"/>
+                     <comboitem label="09:00"/>
+                     <comboitem label="10:00"/>
+                     <comboitem label="11:00"/>
+                     <comboitem label="12:00"/>
+                     <comboitem label="13:00"/>
+                     <comboitem label="14:00"/>
+                     <comboitem label="15:00"/>
+                     <comboitem label="16:00"/>
+                     <comboitem label="17:00"/>
+                     <comboitem label="18:00"/>
+                     <comboitem label="19:00"/>
+                     <comboitem label="20:00"/>
+                     <comboitem label="21:00"/>
+                 </combobox>
+            </hlayout>
+            <separator height="20px"/>
+            <hlayout>
+                <label value="${c:l('paquetes.devolucion.carro')}" sclass="titulo-secundario"/>                
+                <datebox onChange="@command('validarFechaDevolucion')"  value="@bind(vm.fechaFinAlquiler)" width="150px" tabindex="1" />
+                <combobox width="150px" value="@bind(vm.horaFinAlquiler)"
+                     selectedItem="@bind(vm.horaFinAlquiler)">
+                     <comboitem label="00:00"/>
+                     <comboitem label="01:00"/>
+                     <comboitem label="02:00"/>
+                     <comboitem label="03:00"/>
+                     <comboitem label="04:00"/>
+                     <comboitem label="05:00"/>
+                     <comboitem label="06:00"/>
+                     <comboitem label="07:00"/>
+                     <comboitem label="08:00"/>
+                     <comboitem label="09:00"/>
+                     <comboitem label="10:00"/>
+                     <comboitem label="11:00"/>
+                     <comboitem label="12:00"/>
+                     <comboitem label="13:00"/>
+                     <comboitem label="14:00"/>
+                     <comboitem label="15:00"/>
+                     <comboitem label="16:00"/>
+                     <comboitem label="17:00"/>
+                     <comboitem label="18:00"/>
+                     <comboitem label="19:00"/>
+                     <comboitem label="20:00"/>
+                     <comboitem label="21:00"/>
+                 </combobox>
+            </hlayout>
+        </vlayout>
+    </div>
+</zk>

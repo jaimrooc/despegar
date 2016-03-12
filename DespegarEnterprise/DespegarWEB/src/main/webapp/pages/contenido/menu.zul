@@ -1,0 +1,125 @@
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+<?page title="${c:l('bienvenida')}" contentType="text/html;charset=UTF-8"?>
+
+<?link type="text/css" rel="stylesheet" href="/css/style.css" ?>
+<?link type="text/css" rel="stylesheet" href="/css/menur.css" ?>
+
+<?link type="image/x-icon" rel="shortcut icon" href="/resources/images/icono_pestania.png" ?>
+
+<window border="none" xmlns="native" xmlns:z="zul"
+        apply="org.zkoss.bind.BindComposer"
+        viewModel="@id('vm') @init('co.com.ppit2.web.controller.security.MenuSecurityController')">
+    <div id="logo" align="right">
+        
+        <!-- Visualiza el contenido si el usuario inicio session exitosamente -->
+        <div align="right" if="${not empty sessionScope.personaSession}" onclick="redirectPage('/logout.do',zk.Widget.$('$a8'))">
+            <label style="font-family: Arial;font-size: 13px">
+                ${sessionScope.personaSession.getFullName()} 
+            </label>
+            <br/>
+            <z:a id="a8" class="b8">
+                <label>
+                    <attribute name="onCreate">
+                        ${c:l('menu.cerrar.session')}
+                        <image src="resources/images/logout.png"/>
+                    </attribute>
+                </label>
+            </z:a>
+        </div>
+        
+        <!-- Visualiza el contenido si no han iniciado sessions -->
+        <div align="right" if="${empty sessionScope.personaSession}" onclick="redirectPage('/login.do',zk.Widget.$('$a9'))">
+            <z:a id="a9" class="b9">${c:l('login.iniciar.session')}
+                <image src="resources/images/login.png"/>
+            </z:a>
+        </div>
+    </div>
+    <div id='cssmenu'>
+        <ul>
+            <!-- Redirecciona al home del proyecto -->
+            <li class='active'  onclick="redirectPage('/home.do',zk.Widget.$('$a0'))">
+                <z:a id="a0" class="b0">
+                    <span>${c:l('menu.home')}</span>
+                </z:a>
+            </li>
+				
+            <!-- SECCION TRANSPORTES -->
+            <li class='has-sub'>
+                <z:a>
+                    <span>${c:l('menu.transporte')}</span>
+                </z:a>
+                <ul>
+                    <!-- transportes aereos -->
+                    <li onclick="redirectPage('/transAereo.do',zk.Widget.$('$a1'))">
+                        <z:a id="a1" class="b1" >
+                            <span>${c:l('menu.transporte.aereo')}</span>
+                        </z:a>
+                    </li>
+                    <!-- transportes terrestres -->
+                    <li onclick="redirectPage('/transTerrestre.do',zk.Widget.$('$a2'))">
+                        <z:a id="a2" class="b2">
+                            <span>${c:l('menu.transporte.terrestre')}</span>
+                        </z:a>
+                    </li>
+                </ul>
+            </li>
+				
+            <!-- SECCION HOTELES -->
+            <li onclick="redirectPage('/hoteles.do',zk.Widget.$('$a3'))">
+                <z:a id="a3" class="b3">
+                    <span>${c:l('menu.hoteles')}</span>
+                </z:a>
+            </li>
+				
+            <!-- SECCION PAQUETES O COMBOS -->
+            <li onclick="redirectPage('/paquetes.do',zk.Widget.$('$a4'))">
+                <z:a id="a4" class="b4">
+                    <span>${c:l('menu.paquetes')}</span>
+                </z:a>
+            </li>
+            
+<!--             SECCION MOVIMIENTOS O TRANSACCIONES 
+            <li onclick="redirectPage('/movimientos.do',zk.Widget.$('$a5'))">
+                <z:a id="a5" class="b5">
+                    <span>${c:l('menu.movimientos')}</span>
+                </z:a>
+            </li>-->
+            
+            <!-- SECCION CONVENIOS -->
+            <li onclick="redirectPage('/convenios.do',zk.Widget.$('$a6'))">
+                <z:a id="a6" class="b6">
+                    <span>${c:l('menu.convenios')}</span>
+                </z:a>
+            </li>
+            
+            <!-- SECCION PERSONAS -->
+            <li onclick="redirectPage('/persona.do',zk.Widget.$('$a7'))">
+                <z:a id="a7" class="b7">
+                    <span>${c:l('menu.personas')}</span>
+                </z:a>
+            </li>
+        </ul>
+    </div>
+    <script type="text/javascript">
+        function redirectPage(d,propertiesSecurity) {
+        var str = "/" + location.pathname.split("/")[1];
+        if(show_props(propertiesSecurity)){
+        if ( !(String(str + d) === String(location.pathname) ) ){
+        location.pathname = str + d;
+        }
+        }else{
+        location.pathname = str +"/403";
+        }
+        }
+		
+        function show_props(obj) { 
+        var myPropertieSecurity = new Boolean();
+        for (var i in obj) { 
+        if(i == '_disabled'){
+        return false;
+        } 
+        }
+        return true;
+        } 
+    </script>
+</window>

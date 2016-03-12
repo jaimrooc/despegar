@@ -1,0 +1,25 @@
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+<?page title="${c:l('bienvenida')}" contentType="text/html;charset=UTF-8"?>
+
+<?link type="text/css" rel="stylesheet" href="/css/style.css" ?>
+<?link type="text/css" rel="stylesheet" href="/css/menur.css" ?>
+
+<?link type="image/x-icon" rel="shortcut icon" href="/resources/images/icono_pestania.png" ?>
+
+<window apply="org.zkoss.bind.BindComposer"
+        viewModel="@id('vm') @init('co.com.ppit2.web.controller.handler.HandlerThrowableController', 
+		exception=requestScope.get('javax.servlet.error.exception'))"
+        title="Error ${requestScope['javax.servlet.error.status_code']}"
+        width="400px" border="normal" mode="modal" closable="true" position="center">
+    <vbox>
+        Error description: ${requestScope['javax.servlet.error.message']}
+        <hbox style="margin-left:auto; margin-right:auto">
+            <button label="${c:l('continue')}" onClick="spaceOwner.detach()" mold="trendy" />
+            <button label="${c:l('reload')}" onClick="Executions.sendRedirect(null)" mold="trendy" />
+        </hbox>
+    </vbox>
+ 
+    <zscript>
+        org.zkoss.util.logging.Log.lookup("Fatal").error( requestScope.get("javax.servlet.error.exception") );
+    </zscript>
+</window>

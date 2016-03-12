@@ -1,0 +1,7 @@
+<window border="none" xmlns="native" >
+    <div id="footer">
+        <div>
+            <p>${c:l('footer')}</p>
+        </div>
+    </div>
+</window>

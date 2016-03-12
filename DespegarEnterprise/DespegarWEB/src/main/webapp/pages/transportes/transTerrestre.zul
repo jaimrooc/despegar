@@ -1,0 +1,194 @@
+<?taglib uri="/WEB-INF/security.tld" prefix="sec"?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+<?page id="nivel" title="${c:l('bienvenida')}" contentType="text/html;charset=UTF-8"?>
+
+<?script src="/js/jquery-1.4.2.js" type="text/javascript"  ?>
+<?script src="/js/jquery.dropmenu.js" type="text/javascript" ?>
+<?script src="/js/menu.js" type="text/javascript" ?>
+
+<?link type="text/css" rel="stylesheet" href="/css/menur.css" ?>
+<?link type="text/css" rel="stylesheet" href="/css/style.css" ?>
+<?link type="text/css" rel="stylesheet" href="/css/formStyle.css" ?>
+
+<?link type="image/x-icon" rel="shortcut icon" href="/resources/images/icono_cen.png" ?>
+
+<zk>
+	<div sclass="wrapper" align="center">
+		<custom-attributes org.zkoss.zul.image.preload="true" />
+		<div sclass="header">
+			<include src="/pages/contenido/menu.zul" />
+		</div>
+		<div>
+			<space/>
+			<div apply="org.zkoss.bind.BindComposer" align="center" width="90%" viewModel="@id('vm') @init('co.com.cen.controller.web.AlumnoController')" sclass="content">
+
+				<div visible="@load(vm.msg.visible)" sclass="@load(vm.msg.sclass)" style="margin:10px 0px;" >
+					<label value="@load(vm.msg.mensaje)"/>
+				</div>
+									
+				<div sclass="barra-titulo">
+					<div align="right">
+						<button onClick="@command('goToGuardians')" tooltiptext="${c:l('tooltiptext.agregar.acudiente')}" visible="@bind(vm.mostrarVista)" mold="trendy" image="/resources/images/acudiente.png" />
+						<separator orient="vertical"/>
+						<button onClick="@command('nuevo')" tooltiptext="${c:l('tooltiptext.nuevo')}" visible="@bind(vm.mostrarBtnNuevo)" mold="trendy" image="/resources/images/nuevo.png" />
+						<button onClick="@command('guardar')" tooltiptext="${c:l('tooltiptext.guardar')}" visible="@bind(vm.mostrarBtnGuardar)" mold="trendy" image="/resources/images/guardar.png"/>
+						<button onClick="@command('editar')" tooltiptext="${c:l('tooltiptext.editar')}" visible="@bind(vm.mostrarBtnEditar)" mold="trendy" image="/resources/images/editar.png"/>
+						<button onClick="@command('atras')" tooltiptext="${c:l('tooltiptext.volver')}" visible="@bind(!vm.esPreInscripcion and !vm.mostrarLista)" mold="trendy" image="/resources/images/atras.png" />
+					</div>
+					<space/>
+					<div align="left">
+						<space/>
+						<label value="${c:l('menu.preiscripcion')}" sclass="titulo-ppal" visible="@load(vm.esPreInscripcion)"/>
+						<label value=" - " sclass="titulo-ppal" visible="@load(vm.esPreInscripcion)"/>
+						<label value="${c:l('menu.sub.clases.alumnos')}" sclass="titulo-ppal" />
+					</div>
+				</div>
+				<!-- Lista de datos -->
+				<div visible="@bind(vm.mostrarLista)">
+					<listbox mold="paging" pageSize="${c:l('pageSize')}" 
+						emptyMessage="${c:l('lista.nodatos')}" pagingPosition="bottom" width="100%" action="show: slideDown({duration: 800}); hide: slideUp({duration: 0})"
+						model="@bind(vm.listaAlumno)" selectedItem="@bind(vm.alumnoSeleccionado)" onSelect="@command('mostrarDetalle')">
+						<auxhead>
+							<auxheader label="${c:l('filtro')}" colspan="6" align="center" image="/resources/images/filtro.png"/>
+						</auxhead>
+						<auxhead>
+							<auxheader><textbox width="100%" instant="true" value="@bind(vm.filtroIdentificacion)" onChange="@command('filtrarAlumnos')" /></auxheader>
+							<auxheader><textbox width="100%" instant="true" value="@bind(vm.filtroNombre)" onChange="@command('filtrarAlumnos')" /></auxheader>
+							<auxheader><textbox width="100%" instant="true" value="@bind(vm.filtroApellido1)" onChange="@command('filtrarAlumnos')" /></auxheader>
+							<auxheader><textbox width="100%" instant="true" value="@bind(vm.filtroApellido2)" onChange="@command('filtrarAlumnos')" /></auxheader>
+							<auxheader><textbox width="100%" instant="true" value="@bind(vm.filtroTelefono)" onChange="@command('filtrarAlumnos')" /></auxheader>
+							<auxheader>
+								<listbox width="100%" mold="select" model="@bind(vm.listaDeEstados)"
+									selectedItem="@bind(vm.filtroEstado)" onSelect="@command('filtrarAlumnos')" >
+									<template name="model">
+										<listitem label="@bind(each)" value="@bind(each)" />
+									</template>
+								</listbox>																	
+							</auxheader>
+						</auxhead>
+						<listhead>
+							<listheader label="${c:l('identificacion')}" align="left"/>
+							<listheader label="${c:l('nombre')}" align="left"/>
+							<listheader label="${c:l('apellido.uno')}" align="left"/>
+							<listheader label="${c:l('apellido.dos')}" align="left"/>
+							<listheader label="${c:l('telefono')}" align="left"/>
+							<listheader label="${c:l('en.espera')}" align="center"/>
+						</listhead>
+						<template name="model">
+							<listitem>
+								<listcell label="@load(each.identificacion)" />
+								<listcell label="@load(each.nombre)" />
+								<listcell label="@load(each.apellido1)" />
+								<listcell label="@load(each.apellido2)" />
+								<listcell label="@load(each.telefono)" />
+								<listcell>
+									<image visible="@load(each.estado)" src="/resources/images/active.png"/>												
+								</listcell>
+							</listitem>
+						</template>
+					</listbox>
+				</div>
+				<!-- Creacion de los datos -->
+				<div sclass="barra-subtitulo" align="center" visible="@bind(vm.mostrarCreacion)">
+					<space visible="@bind(vm.mostrarCreacion)"/>
+					<label value="${c:l('nuevo.alumno')}" sclass="titulo-secundario" visible="@bind(vm.mostrarCreacion)"/>
+				</div>
+				<div zclass="formulario" visible="@bind(vm.mostrarCreacion)">
+					<div>
+						<vbox width="100%">
+							<label value="${c:l('tipo.documento')}" sclass="labeltexBold fieldMandatory"/>
+							<listbox width="100%" mold="select" model="@bind(vm.formlistTipoDocumento)" sclass="sclassformTipoDocumento"
+								selectedItem="@bind(vm.formTipoDocumento)" >
+								<template name="model">
+									<listitem label="@bind(each.nombre)" value="@bind(each.nombre)" />
+								</template>
+							</listbox>
+							
+							<label value="${c:l('identificacion')}" sclass="labeltexBold fieldMandatory"/>
+							<longbox width="100%" value="@bind(vm.formIdentificacion)" sclass="@load(vm.sclassformIdentificacion)" maxlength="15"/>
+							
+							<label value="${c:l('fecha.nacimiento')}" sclass="labeltexBold fieldMandatory"/>
+							<datebox width="100%" value="@bind(vm.formFechaNacimiento)"  sclass="@load(vm.sclassformFechaNacimiento)" />
+							
+							<label value="${c:l('telefono')}" sclass="labeltexBold fieldMandatory"/>
+							<longbox width="100%" value="@bind(vm.formTelefono)" sclass="@load(vm.sclassformTelefono)" maxlength="10"/>
+							
+							<label value="${c:l('email')}" sclass="labeltexBold"/>
+							<textbox width="100%" value="@bind(vm.formEmail)" sclass="@load(vm.sclassformEmail)" maxlength="300"/>
+						</vbox>
+					</div>
+					<div>
+						<vbox width="100%">
+							<label value="${c:l('nombre')}" sclass="labeltexBold fieldMandatory"/>
+							<textbox width="100%" value="@bind(vm.formNombre)" sclass="@load(vm.sclassformNombre)" maxlength="150"/>
+							
+							<label value="${c:l('apellido.uno')}" sclass="labeltexBold fieldMandatory"/>
+							<textbox width="100%" value="@bind(vm.formApellido1)" sclass="@load(vm.sclassformApellido1)" maxlength="75"/>
+							
+							<label value="${c:l('apellido.dos')}" sclass="labeltexBold"/>
+							<textbox width="100%" value="@bind(vm.formApellido2)" maxlength="75"/>
+							
+							<label value="${c:l('direccion')}" sclass="labeltexBold fieldMandatory"/>
+							<textbox width="100%" value="@bind(vm.formDireccion)" sclass="@load(vm.sclassformDireccion)" maxlength="300"/>
+							
+							<label value="${c:l('estado')}" sclass="labeltexBold" if="${sec:isAnyGranted('ROL_ADMINISTRADOR')}"/>
+							<checkbox checked="@bind(vm.esActivo)" if="${sec:isAnyGranted('ROL_ADMINISTRADOR')}"/>
+						</vbox>
+					</div>
+					<hbox sclass="margen">
+						<label value="${c:l('mandatory.1')}" sclass="labeltexMandatory" />
+						<label value="*" style="color: red; font-weight:bold;" />
+						<label value="${c:l('mandatory.2')}" sclass="labeltexMandatory" />
+					</hbox>
+				</div>
+				<!-- Vista de los datos -->
+				<div sclass="barra-subtitulo" align="center" visible="@bind(vm.mostrarVista)">
+					<space visible="@bind(vm.mostrarVista)"/>
+					<label value="${c:l('detalle')}" sclass="titulo-secundario" visible="@bind(vm.mostrarVista)"/>
+				</div>
+				<div zclass="formulario" visible="@bind(vm.mostrarVista)">
+					<div>
+						<vbox width="100%">
+							<label value="${c:l('tipo.documento')}" sclass="labeltexBold"/>
+							<label value="@load(vm.formTipoDocumento.nombre)" sclass="text-respuesta"/>
+							
+							<label value="${c:l('identificacion')}" sclass="labeltexBold"/>
+							<label value="@load(vm.formIdentificacion)" sclass="text-respuesta"/>
+							
+							<label value="${c:l('fecha.nacimiento')}" sclass="labeltexBold"/>
+							<label value="@load(vm.formFechaNacimiento) @converter('formatedDate', format='dd-MM-yyyy')" sclass="text-respuesta"/>
+							
+							<label value="${c:l('telefono')}" sclass="labeltexBold"/>
+							<label value="@load(vm.formTelefono)" sclass="text-respuesta"/>
+							
+							<label value="${c:l('email')}" sclass="labeltexBold"/>
+							<label value="@load(vm.formEmail)" sclass="text-respuesta"/>
+						</vbox>
+					</div>
+					<div>
+						<vbox width="100%">
+							<label value="${c:l('nombre')}" sclass="labeltexBold"/>
+							<label value="@load(vm.formNombre)" sclass="text-respuesta"/>
+							
+							<label value="${c:l('apellido.uno')}" sclass="labeltexBold"/>
+							<label value="@load(vm.formApellido1)" sclass="text-respuesta"/>
+							
+							<label value="${c:l('apellido.dos')}" sclass="labeltexBold"/>
+							<label value="@load(vm.formApellido2)" sclass="text-respuesta"/>
+							
+							<label value="${c:l('direccion')}" sclass="labeltexBold"/>
+							<label value="@load(vm.formDireccion)" sclass="text-respuesta"/>
+							
+							<label value="${c:l('estado')}" sclass="labeltexBold"/>
+							<image visible="@load(vm.esActivo)" src="/resources/images/active.png"/>
+							<image visible="@load(!vm.esActivo)" src="/resources/images/inactive.png"/>
+						</vbox>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div>
+		<include src="/pages/contenido/footer.zul" />
+	</div>
+</zk>

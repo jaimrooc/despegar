@@ -1,0 +1,25 @@
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+<?page title="${c:l('bienvenida')}" contentType="text/html;charset=UTF-8"?>
+
+<?link type="text/css" rel="stylesheet" href="/css/style.css" ?>
+<?link type="text/css" rel="stylesheet" href="/css/menur.css" ?>
+
+<?link type="image/x-icon" rel="shortcut icon" href="/resources/images/icono_pestania.png" ?>
+<zk>
+    <window width="100%" height="100%">
+        <window width="90%" mode="overlapped" position="center,top" style="margin:50px;">
+            <div align="center">
+                <div align="left">
+                    <box orient="horizontal">
+                        <image src="/resources/images/error404.png" width="365px" style="margin:80px 100px;"/>
+                        <box orient="vertical" style="margin:50px">
+                            <label value="${c:l('page.not.found')}" sclass="b1 fieldMandatory" style="font-size: 24px;"/>
+                            <a href="javascript:history.back()" style="font-size: 18px;">${c:l('back')}</a>
+                            <a href="/" style="font-size: 18px;">${c:l('backhome')}</a>
+                        </box>
+                    </box>
+                </div>
+            </div>
+        </window>
+    </window>
+</zk>

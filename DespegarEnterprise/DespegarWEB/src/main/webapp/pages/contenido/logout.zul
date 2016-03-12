@@ -1,0 +1,27 @@
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+<?page title="${c:l('bienvenida')}" contentType="text/html;charset=UTF-8"?>
+
+<?link type="text/css" rel="stylesheet" href="/css/style.css" ?>
+<?link type="text/css" rel="stylesheet" href="/css/menur.css" ?>
+
+<?link type="image/x-icon" rel="shortcut icon" href="/resources/images/icono_pestania.png" ?>
+
+<zk>
+    <div sclass="wrapper" align="center">
+        <custom-attributes org.zkoss.zul.image.preload="true" />
+        <div sclass="header">
+            <include src="/pages/contenido/menu.zul" />
+        </div>
+        <window width="100%" height="100%">
+            <custom-attributes org.zkoss.zul.image.preload="true" />
+            <window mode="overlapped" position="center"
+                    apply="org.zkoss.bind.BindComposer"
+                    viewModel="@id('vm') @init('co.com.ppit2.web.controller.AccessLogoutController')">
+                <label value="Redirect..."/>
+            </window>
+        </window>
+    </div>
+    <div>
+        <include src="/pages/contenido/footer.zul" />
+    </div>
+</zk>

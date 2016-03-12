@@ -1,0 +1,128 @@
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+<?page title="${c:l('bienvenida')}" contentType="text/html;charset=UTF-8"?>
+
+<?link type="text/css" rel="stylesheet" href="/css/style.css" ?>
+<?link type="text/css" rel="stylesheet" href="/css/menur.css" ?>
+
+<?link type="image/x-icon" rel="shortcut icon" href="/resources/images/icono_pestania.png" ?>
+
+<zk>
+    <div sclass="wrapper" align="center">
+        <custom-attributes org.zkoss.zul.image.preload="true" />
+        <div sclass="header">
+            <include src="/pages/contenido/menu.zul" />
+        </div>
+        <div>
+            <space/>
+            <div apply="org.zkoss.bind.BindComposer" align="center" width="90%" viewModel="@id('vm') @init('co.com.ppit2.web.controller.ConveniosController')" sclass="content">
+
+                <div visible="@load(vm.msg.visible)" sclass="@load(vm.msg.sclass)" style="margin:10px 0px;" >
+                    <label value="@load(vm.msg.mensaje)"/>
+                </div>
+                
+                <!-- Barra de titulo -->
+                <div sclass="barra-titulo">
+                    <div align="left">
+                        <space/>
+                        <label value="${c:l('menu.convenios')}" sclass="titulo-ppal"/>
+                    </div>
+                    <div align="right">
+                        <button onClick="@command('nuevo')" image="/resources/images/nuevo.png" label="nuevo" orient="vertical"/>
+                        <button onClick="@command('atras', estado='lista')" image="/resources/images/atras.png" label="atras" orient="vertical" visible="@load(!vm.dtoAccionesGUI.lista)"/>
+                    </div>
+                </div>
+                
+                <!-- Lista de datos (INICIO) -->
+                <grid model="@load(vm.conveniosLista)" visible="@load(vm.dtoAccionesGUI.lista)" mold="paging" pageSize="6" pagingPosition="both">
+                    <auxhead sclass="category-center">
+                        <auxheader label="${c:l('menu.convenios')}" colspan="4" align="center"/>
+                    </auxhead>
+                    <auxhead sclass="category-center">
+                        <auxheader colspan="1">
+                            <image src="/resources/images/funnel.png" />
+                            <longbox instant="true" width="90%" value="@bind(vm.conveniosListaFiltro.id)" onChange="@command('filtrarLista')" />
+                        </auxheader>
+                        <auxheader colspan="1">
+                            <image src="/resources/images/funnel.png" />
+                            <longbox instant="true" width="90%" value="@bind(vm.conveniosListaFiltro.porcentaje)" onChange="@command('filtrarLista')" />
+                        </auxheader>
+                        <auxheader colspan="1">
+                            <image src="/resources/images/funnel.png" />
+                            <textbox instant="true" width="90%" value="@bind(vm.conveniosListaFiltro.tipoEntidad)" onChange="@command('filtrarLista')"/>
+                        </auxheader>
+                        <auxheader colspan="1"></auxheader>
+                    </auxhead>
+                    <columns>
+                        <column sort="auto(Id)">
+                            <label value="${c:l('convenios.id')}"/>
+                        </column>
+                        <column sort="auto(Porcentaje)">
+                            <label value="${c:l('convenios.porcentaje')}"/>
+                        </column>
+                        <column sort="auto(TipoEntidad)">
+                            <label value="${c:l('convenios.tipo.entidad')}"/>
+                        </column>
+                        <column>
+                            <label value="${c:l('columna.accion')}"/>
+                        </column>
+                    </columns>
+                    <template name="model">
+                        <row>
+                            <label value="@load(each.id)" />
+                            <label value="@load(each.porcentaje)" />
+                            <label value="@load(each.tipoEntidad)" />
+                            <div align="center">
+                                <button image="/resources/images/edit.png" onClick="@command('editar', nodo=each)"/>
+                            </div>
+                        </row>
+                    </template>
+                    <foot>
+                        <footer span="3" id="footer_category" class="footer_right" />
+                    </foot>
+                </grid>
+                <!-- Lista de datos (FIN) -->
+                <!-- Creacion de infomracion (INCIO)-->
+                <grid visible="@load(vm.dtoAccionesGUI.nuevoFormulario)">
+                    <columns>
+                        <column label="Campo" width="120px" />
+                        <column label="Contenido" />
+                    </columns>
+                    <rows>
+                        <row>
+                            <label value="Codigo" width="150px" />
+                            <hlayout>
+                                <longbox value="@load(vm.convenios.id)" width="150px" tabindex="1" readonly="true"/>
+                            </hlayout>
+                        </row>
+                        
+                        <row>
+                            <label value="Porcentaje" width="150px" />
+                            <hlayout>
+                                <textbox value="@bind(vm.convenios.porcentaje)" width="150px" tabindex="1" />
+                            </hlayout>
+                        </row>
+                        <row>
+                            <label value="Tipo de Entidad" width="150px" />
+                            <hlayout>
+                                <textbox value="@bind(vm.convenios.tipoEntidad)" width="150px" tabindex="1" />
+                            </hlayout>
+                        </row>
+                        <row>
+                            <label value="Descripción" width="150px" />
+                            <hlayout>
+                                <textbox value="@bind(vm.convenios.descripcion)" width="150px" tabindex="11" rows="7"/>
+                            </hlayout>
+                        </row>
+                        <row>
+                            <button image="/resources/images/guardar.png" onClick="@command('guardar')" />
+                        </row>
+                    </rows>
+                </grid>
+                <!-- Creacion de infomracion (FIN)-->
+            </div>
+        </div>
+    </div>
+    <div>
+        <include src="/pages/contenido/footer.zul" />
+    </div>
+</zk>
